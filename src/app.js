@@ -7,7 +7,7 @@ app.use(
     origin: process.env.CORS_ORIGIN,
   })
 );
-app.use(express.json({ limit: "16kb" }));
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public")); //public file
 app.use(cookieParser());

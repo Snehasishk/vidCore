@@ -24,12 +24,14 @@ const registerUser = asyncHandler(async (req, res) => {
     throw new ApiError(400, "User already exists");
   }
   const avatarLocalPath = req.files?.avatar[0]?.path;
+  console.log("avatarpath is: ", avatarLocalPath);
   const coverImageLocalPath = req.files?.coverImage[0]?.path;
   //here we check whether the user uploaded avatar file
   if (!avatarLocalPath) {
-    throw new ApiError(400, "Avatar file is required");
+    throw new ApiError(400, "Avatar filePath is required");
   }
   const avatar = await uploadOnCloudinary(avatarLocalPath);
+  console.log("Avatar is:", avatar);
   const coverImage = await uploadOnCloudinary(coverImageLocalPath);
   //here we check whether the avatar file is uploaded on cloudinary
   if (!avatar) {
