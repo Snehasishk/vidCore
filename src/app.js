@@ -10,6 +10,7 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public")); //public file
+// { limit: "16kb" }
 app.use(cookieParser());
 
 //routes import

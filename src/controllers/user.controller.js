@@ -26,11 +26,14 @@ const registerUser = asyncHandler(async (req, res) => {
   const avatarLocalPath = req.files?.avatar[0]?.path;
   console.log("avatarpath is: ", avatarLocalPath);
   const coverImageLocalPath = req.files?.coverImage[0]?.path;
+  console.log("coverImageLocalPath is: ", coverImageLocalPath);
   //here we check whether the user uploaded avatar file
   if (!avatarLocalPath) {
     throw new ApiError(400, "Avatar filePath is required");
   }
-  const avatar = await uploadOnCloudinary(avatarLocalPath);
+  const avatar = await uploadOnCloudinary(avatarLocalPath).catch((error) =>
+    console.log(error)
+  );
   console.log("Avatar is:", avatar);
   const coverImage = await uploadOnCloudinary(coverImageLocalPath);
   //here we check whether the avatar file is uploaded on cloudinary
@@ -39,7 +42,7 @@ const registerUser = asyncHandler(async (req, res) => {
   }
   const user = await User.create({
     fullname,
-    avatar: avatar.url,
+    avatar: avatar.url || "",
     coverImage: coverImage?.url || "",
     email,
     password,
