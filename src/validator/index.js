@@ -29,4 +29,18 @@ const userRegistrationValidator = () => {
       .withMessage("fullname cannot be less than 5 characters"),
   ];
 };
-export { userRegistrationValidator };
+
+const userLoginValidator = () => {
+  return [
+    body("email")
+      .notEmpty()
+      .withMessage("Email cant be empty")
+      .trim()
+      .isEmail()
+      .withMessage("Email is invalid"),
+    body("password").notEmpty().withMessage("password cant be empty").trim(),
+    body("username").notEmpty().withMessage("username cant be empty").trim(),
+  ];
+};
+
+export { userRegistrationValidator, userLoginValidator };
