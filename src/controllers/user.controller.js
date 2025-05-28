@@ -207,7 +207,7 @@ const changeCurrentPassword = asyncHandler(async (req, res) => {
 const getCurrentUser = asyncHandler(async (req, res) => {
   return res
     .status(200)
-    .json(200, req.user, "Current user fetched successfully");
+    .json(new ApiResponse(200, req.user, "Current user fetched successfully"));
 });
 const updateCurrentUser = asyncHandler(async (req, res) => {
   const { fullname, email } = req.body;
@@ -241,7 +241,7 @@ const updateUserAvatar = asyncHandler(async (req, res) => {
     throw new ApiError(400, "Error while uploading on cloudinary");
   }
   const user = await User.findByIdAndUpdate(
-    req.user._id,
+    req.user?._id,
     {
       $set: {
         avatar: avatar.url,
@@ -249,8 +249,7 @@ const updateUserAvatar = asyncHandler(async (req, res) => {
     },
     { new: true }
   ).select("-password");
-  return;
-  res
+  return res
     .status(200)
     .json(new ApiResponse(200, user, "avatar updated successfully"));
 });
@@ -337,8 +336,7 @@ const getUserChannelProfile = asyncHandler(async (req, res) => {
   if (!channel?.length) {
     throw new ApiError(400, "Channel doesn't exist");
   }
-  return;
-  res
+  return res
     .status(200)
     .json(
       new ApiResponse(200, channel[0], "User channel fetched successfully")
@@ -386,8 +384,7 @@ const getWatchHistory = asyncHandler(async (req, res) => {
       },
     },
   ]);
-  return;
-  res
+  return res
     .status(200)
     .json(new ApiResponse(200, user[0].watchHistory, "Watch history fetched"));
 });
