@@ -75,6 +75,7 @@ web_modules/
 .env.production
 video1.controller.js
 video2.controller.js
+playlist2.controller.js
 
 
 # parcel-bundler cache (https://parceljs.org/)
