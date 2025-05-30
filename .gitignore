@@ -78,6 +78,8 @@ video2.controller.js
 playlist2.controller.js
 tweet1.controller.js
 subscriber1.controller.js
+like1.controller.js
+comment1.controller.js
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
