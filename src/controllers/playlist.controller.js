@@ -107,7 +107,7 @@ const getPlaylistById = asyncHandler(async (req, res) => {
         pipeline: [
           {
             $lookup: {
-              from: "subscribers",
+              from: "subscriptions",
               localField: "_id",
               foreignField: "channel",
               as: "subscribers",
