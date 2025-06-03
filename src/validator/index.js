@@ -23,7 +23,7 @@ const userRegistrationValidator = () => {
       .withMessage("Password cannot be less than 5 characters"),
     body("fullname")
       .notEmpty()
-      .withMessage("Password cannot be empty")
+      .withMessage("fullname cannot be empty")
       .trim()
       .isLength({ min: 5 })
       .withMessage("fullname cannot be less than 5 characters"),

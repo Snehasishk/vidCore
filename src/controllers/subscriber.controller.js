@@ -2,6 +2,8 @@ import { ApiError } from "../utils/api-error.js";
 import { ApiResponse } from "../utils/api-response.js";
 import asyncHandler from "../utils/async-handler.js";
 import { Subscription } from "../models/subscription.model.js";
+import { isValidObjectId } from "mongoose";
+import { User } from "../models/user.model.js";
 const toggleSubscription = asyncHandler(async (req, res) => {
   const { channelId } = req.params;
 
@@ -30,7 +32,41 @@ const toggleSubscription = asyncHandler(async (req, res) => {
       new ApiResponse(200, { subscribed: true }, "subscribed successfully")
     );
 });
-const getUserChannelSubscribers = asyncHandler(async (req, res) => {});
-const getSubscribedChannels = asyncHandler(async (req, res) => {});
+const getUserChannelSubscribers = asyncHandler(async (req, res) => {
+  const { channelID } = req.params;
+  if (!isValidObjectId(channelID)) {
+    throw new ApiError(400, "UserID is not valid");
+  }
+  const subscriberList = await Subscription.find({
+    channel: channelID,
+  }).populate("subscriber", "fullname,username,avatar");
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(
+        200,
+        subscriberList,
+        "Subscribers list fetched successfully"
+      )
+    );
+});
+const getSubscribedChannels = asyncHandler(async (req, res) => {
+  const { subscriberID } = req.params;
+  if (!isValidObjectId(subscriberID)) {
+    throw new ApiError(400, "UserID is not valid");
+  }
+  const subscribedTo = await Subscription.find({
+    subscriber: subscriberID,
+  }).populate("channel", "username fullname avatar");
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(
+        200,
+        subscribedTo,
+        "Subscribed channel fetched successfully"
+      )
+    );
+});
 
 export { toggleSubscription, getSubscribedChannels, getUserChannelSubscribers };
